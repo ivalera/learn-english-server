@@ -6,12 +6,15 @@ dotenv.config();
 
 const app = express();
 
-// Подключение CORS
+// Настройка CORS
 app.use(cors({
-    origin: 'http://localhost:5173',
-    methods: 'GET,POST,PUT,DELETE',
+    origin: 'http://localhost:5173', // разрешите свой клиентский URL
+    methods: 'GET,POST,PUT,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization,x-auth-token',
 }));
+
+// Обработка предварительных запросов (OPTIONS)
+app.options('*', cors());
 
 app.use(express.json());
 
