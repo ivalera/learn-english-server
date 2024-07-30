@@ -7,9 +7,9 @@ dotenv.config();
 
 const app = express();
 
-// Настройка CORS
+// Настройка CORS, origin: 'http://localhost:5173', // разрешите свой клиентский URL
 app.use(cors({
-    origin: 'http://localhost:5173', // разрешите свой клиентский URL
+    origin: '*',
     methods: 'GET,POST,PUT,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization,x-auth-token',
 }));
