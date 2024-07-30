@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
 dotenv.config();
 
@@ -17,6 +18,21 @@ app.use(cors({
 app.options('*', cors());
 
 app.use(express.json());
+
+// Подключение к MongoDB
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+
+mongoose.connection.on('connected', () => {
+    console.log('Connected to MongoDB');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('Error connecting to MongoDB:', err);
+});
+
 
 // Маршруты
 app.use('/api/auth', require('./routes/auth-routes'));
