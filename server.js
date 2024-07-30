@@ -16,6 +16,11 @@ app.use(express.json({ extended: false }));
 app.use('/api/auth', require('./routes/auth-routes'));
 app.use('/api/words', require('./routes/word-routes'));
 
+// Корневой маршрут
+app.get('/', (req, res) => {
+    res.send('API is running');
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server started on http://localhost:${PORT}`));
