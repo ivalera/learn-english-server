@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const auth = require('../middlewares/auth-middleware'); // Убедитесь, что middleware импортирован
 
 // Вспомогательная функция для отправки почты
 const sendTokenByEmail = async (email, token) => {
@@ -46,7 +47,11 @@ router.post('/login',
                 return res.status(400).json({ msg: 'Invalid credentials' });
             }
 
-            // Здесь можно добавить проверку пароля, например bcrypt
+            // Проверка пароля с bcrypt
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ msg: 'Invalid credentials' });
+            }
 
             const payload = { user: { id: user.id } };
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '30d' });
