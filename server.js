@@ -9,13 +9,13 @@ const app = express();
 
 // Настройка CORS, origin: 'http://localhost:5173', // разрешите свой клиентский URL
 app.use(cors({
-    origin: '*',
+    origin: 'http://localhost:5173',
     methods: 'GET,POST,PUT,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type,Authorization,x-auth-token',
 }));
 
 // Обработка предварительных запросов (OPTIONS)
-app.options('*', cors());
+//app.options('*', cors());
 
 app.use(express.json());
 
