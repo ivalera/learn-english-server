@@ -1,9 +1,17 @@
 // controllers/word-controller.js
 const Word = require('../models/word');
+const User = require('../models/user');
 
 // Получение всех слов
 const getWords = async (req, res) => {
     try {
+        // Найти пользователя по ID из токена
+        const user = await User.findById(req.user.id);
+        
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
         console.log('Fetching words...');
         const words = await Word.find({});
         console.log('Words fetched:', words);
@@ -19,6 +27,13 @@ const addWord = async (req, res) => {
     const { word, translation } = req.body;
 
     try {
+        // Найти пользователя по ID из токена
+        const user = await User.findById(req.user.id);
+        
+        if (!user) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
         console.log('Adding new word:', word);
         let newWord = new Word({
             word,
